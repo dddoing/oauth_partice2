@@ -19,7 +19,6 @@ public class JWTTokenEnhancer implements TokenEnhancer {
         //
         Map<String,Object> additionalInfo = new HashMap<>();
         additionalInfo.put("iss","iss");
-        additionalInfo.put("aud","aud");
 
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 

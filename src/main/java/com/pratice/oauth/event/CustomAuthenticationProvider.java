@@ -29,20 +29,22 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String userPassword = authentication.getCredentials().toString();
 
-        User user = userJpaRepo.findByUid(username).orElseThrow(()->new UsernameNotFoundException("no"));
-
+//        User user = userJpaRepo.findByUid(username).orElseThrow(()->new UsernameNotFoundException("no"));
+//
         log.info("Authentication Info : {}", authentication);
         log.info("username:{},userPassword:{}",username,userPassword);
+//
+//        if (!passwordEncoder.matches(userPassword,user.getPassword())) {
+//            throw new BadCredentialsException("wrong Password");
+//        }
 
-        if (!passwordEncoder.matches(userPassword,user.getPassword())) {
-            throw new BadCredentialsException("wrong Password");
-        }
-
-        return new UsernamePasswordAuthenticationToken(username,userPassword,user.getAuthorities());
+//        return new UsernamePasswordAuthenticationToken(username,userPassword,user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(username,userPassword,null);
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+//        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+        return true;
     }
 }

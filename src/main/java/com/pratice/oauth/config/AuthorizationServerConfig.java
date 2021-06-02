@@ -38,8 +38,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     @Autowired
     private ServiceConfig serviceConfig;
-    @Autowired
-    private DataSource dataSource;
 
 //    //
 //    @Override
@@ -54,16 +52,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         //
-        log.info("?????????????????????{}",serviceConfig);
-//        clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
         clients.inMemory()
                 .withClient(serviceConfig.getClient().getId())
                 .secret(passwordEncoder.encode(serviceConfig.getClient().getSecret()))
                 .authorizedGrantTypes(serviceConfig.getGrantTypes().toArray(new String[0]))
+                .resourceIds("iss")
                 .scopes("read","write")
                 .accessTokenValiditySeconds(60)
                 .refreshTokenValiditySeconds(120)
-                .redirectUris(serviceConfig.getRedirectUrl());
+                .redirectUris(serviceConfig.getRedirectUrl())
+                .autoApprove(true);
     }
 
     //
@@ -74,10 +72,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer,jwtAccessTokenConverter));
 
         endpoints
+                .pathMapping("/oauth/authorize","/oauth2/auth")
+                .pathMapping("/oauth/token","/oauth2/token")
                 .authenticationManager(authenticationManager)
                 .tokenEnhancer(tokenEnhancerChain)
                 .accessTokenConverter(jwtAccessTokenConverter)
                 .tokenStore(tokenStore)
                 .userDetailsService(userDetailsService);
+
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -39,14 +40,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private ServiceConfig serviceConfig;
 
-//    //
-//    @Override
-//    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-//        //
-//        security.tokenKeyAccess("permitAll()")
-//                .checkTokenAccess("isAuthenticated()") //allow check token
-//                .allowFormAuthenticationForClients();
-//    }
+    //
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        //
+        security.tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()") //allow check token
+                .allowFormAuthenticationForClients();
+    }
 
     //
     @Override
@@ -56,7 +57,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient(serviceConfig.getClient().getId())
                 .secret(passwordEncoder.encode(serviceConfig.getClient().getSecret()))
                 .authorizedGrantTypes(serviceConfig.getGrantTypes().toArray(new String[0]))
-                .resourceIds("iss")
                 .scopes("read","write")
                 .accessTokenValiditySeconds(60)
                 .refreshTokenValiditySeconds(120)
@@ -72,8 +72,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer,jwtAccessTokenConverter));
 
         endpoints
-                .pathMapping("/oauth/authorize","/oauth2/auth")
-                .pathMapping("/oauth/token","/oauth2/token")
+//                .pathMapping("/oauth/authorize","/oauth2/auth")
+//                .pathMapping("/oauth/token","/oauth2/token")
                 .authenticationManager(authenticationManager)
                 .tokenEnhancer(tokenEnhancerChain)
                 .accessTokenConverter(jwtAccessTokenConverter)

@@ -29,4 +29,4 @@ oauth2-config:
   grant-types:
     - authorization_code
     - refresh_token
-  redirect_url: "https://www.getpostman.com/oauth2/callback"
+  redirect_url: "http://localhost:8081/oauth2/callback"

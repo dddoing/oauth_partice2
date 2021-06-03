@@ -35,7 +35,7 @@ public class OAuthController {
         //token
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.add("Accept",MediaType.APPLICATION_JSON_VALUE);
+        headers.add("Accept",MediaType.APPLICATION_JSON_VALUE); 
         headers.add("Authorization","Basic "+encodedCredentials);
 
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();

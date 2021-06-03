@@ -18,13 +18,18 @@ public class JWTTokenEnhancer implements TokenEnhancer {
 
         //
         Map<String,Object> additionalInfo = new HashMap<>();
-        // jwt = payload 설정
+
+        //
         additionalInfo.put("iss","metlife");
+        additionalInfo.put("aud","org_code");
+
+        log.info("jwtAccessTokenEnhancer");
 
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-
-        log.info("{}",accessToken);
+        log.info("{}",accessToken.getAdditionalInformation());
 
         return accessToken;
     }
+
+
 }

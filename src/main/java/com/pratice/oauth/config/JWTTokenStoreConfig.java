@@ -1,14 +1,10 @@
 package com.pratice.oauth.config;
 
-import com.pratice.oauth.model.OAuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
@@ -28,6 +24,10 @@ public class JWTTokenStoreConfig {
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         //
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//        AccessTokenConverter tokenConverter = new DefaultAccessTokenConverter();
+//        ((DefaultAccessTokenConverter) tokenConverter).setUserTokenConverter(new CustomUserAuthenticationConverter());
+//
+//        converter.setAccessTokenConverter(tokenConverter);
         converter.setSigningKey(serviceConfig.getJwtSigningKey());
 
 

@@ -23,7 +23,6 @@ public class OAuthController {
 
     private final Gson gson;
     private final RestTemplate restTemplate;
-    private final CustomAuthenticationProvider provider;
 
     @GetMapping(value = "/callback")
     public OAuthToken callback(@RequestParam String code,@RequestParam String state) {
@@ -35,7 +34,7 @@ public class OAuthController {
         //token
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.add("Accept",MediaType.APPLICATION_JSON_VALUE); 
+        headers.add("Accept",MediaType.APPLICATION_JSON_VALUE);
         headers.add("Authorization","Basic "+encodedCredentials);
 
         MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
@@ -45,7 +44,7 @@ public class OAuthController {
 
         HttpEntity<MultiValueMap<String,String>> request = new HttpEntity<>(params,headers);
         log.info("request : {}",request);
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8081/oauth2/token",request,String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8081/oauth/token",request,String.class);
         log.info("response: {}",response);
 
         if (response.getStatusCode() == HttpStatus.OK) {
@@ -55,12 +54,4 @@ public class OAuthController {
         return null;
     }
 
-    @GetMapping(value = "/login")
-    public void login(@RequestParam String userName,@RequestParam String userpassword) {
-        String username = userName;
-        String userPassword =  userpassword;
-        log.info("{} : {}",userName,userPassword);
-
-        provider.authenticate(new UsernamePasswordAuthenticationToken(username,userPassword,null));
-    }
 }

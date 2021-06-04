@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.util.Arrays;
+
 @Configuration
 @RequiredArgsConstructor
 public class JWTTokenStoreConfig {
@@ -24,13 +26,7 @@ public class JWTTokenStoreConfig {
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         //
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-//        AccessTokenConverter tokenConverter = new DefaultAccessTokenConverter();
-//        ((DefaultAccessTokenConverter) tokenConverter).setUserTokenConverter(new CustomUserAuthenticationConverter());
-//
-//        converter.setAccessTokenConverter(tokenConverter);
         converter.setSigningKey(serviceConfig.getJwtSigningKey());
-
-
 
         return converter;
     }
@@ -43,6 +39,10 @@ public class JWTTokenStoreConfig {
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
+
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer(),jwtAccessTokenConverter()));
+        tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
 
         return tokenServices;

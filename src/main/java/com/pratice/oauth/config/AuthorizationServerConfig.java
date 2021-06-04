@@ -72,8 +72,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //                .pathMapping("/oauth/authorize","/oauth2/auth")
 //                .pathMapping("/oauth/token","/oauth2/token")
                 .authenticationManager(authenticationManager)
-                .tokenEnhancer(tokenEnhancerChain)
                 .accessTokenConverter(jwtAccessTokenConverter)
+                .tokenEnhancer(tokenEnhancerChain)
                 .tokenStore(tokenStore)
                 .userDetailsService(userDetailsService);
 

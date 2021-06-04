@@ -26,7 +26,6 @@ public class JWTTokenEnhancer implements TokenEnhancer {
         log.info("jwtAccessTokenEnhancer");
 
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-        log.info("{}",accessToken.getAdditionalInformation());
 
         return accessToken;
     }

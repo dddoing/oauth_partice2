@@ -19,13 +19,13 @@
 //        log.info("{}",accessToken.getAdditionalInformation());
 //        Map<String,Object> add = new HashMap<>();
 //        // /oauth/token : response
-//        // TODO: refresh_token : 유효시간 설정
 //        add.put("refresh_token_expires_in",11);
 //        ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(add);
 //
 //        log.info("{}",accessToken.getAdditionalInformation());
 //        log.info("jwtAccessTokenConverter");
 //
+//        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(add);
 ////        OAuth2AccessToken jwtToken = super.enhance(accessToken, authentication);
 ////
 ////        JWTTokenEnhancer jwt = new JWTTokenEnhancer();

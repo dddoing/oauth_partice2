@@ -25,13 +25,7 @@ public class SecurityConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
 //                .antMatchers("/oauth2/**","/oauth/**","/login","/h2-console/*").permitAll()
                 .antMatchers("/**").permitAll()
-                .and().formLogin().successHandler(new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                //
-                System.out.println();
-            }
-        });
+                .and().formLogin();
     }
 
 }

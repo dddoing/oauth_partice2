@@ -30,8 +30,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private PasswordEncoder passwordEncoder;
     @Autowired
     private TokenStore tokenStore;
-    @Autowired
-    private TokenEnhancer jwtTokenEnhancer;
+//    @Autowired
+//    private TokenEnhancer jwtTokenEnhancer;
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     @Autowired
@@ -66,7 +66,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         //
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer,jwtAccessTokenConverter));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
 
         endpoints
 //                .pathMapping("/oauth/authorize","/oauth2/auth")

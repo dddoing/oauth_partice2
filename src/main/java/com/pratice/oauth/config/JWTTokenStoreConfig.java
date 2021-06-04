@@ -25,7 +25,7 @@ public class JWTTokenStoreConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         //
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        JWTAccessTokenConverter converter = new JWTAccessTokenConverter();
         converter.setSigningKey(serviceConfig.getJwtSigningKey());
 
         return converter;
@@ -37,20 +37,22 @@ public class JWTTokenStoreConfig {
     public DefaultTokenServices defaultTokenServices() {
         //
         DefaultTokenServices tokenServices = new DefaultTokenServices();
+//        CustomTokenServices tokenServices = new CustomTokenServices();
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
 
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer(),jwtAccessTokenConverter()));
+//        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtTokenEnhancer(),jwtAccessTokenConverter()));
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter()));
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
 
         return tokenServices;
     }
 
-    @Bean
-    public TokenEnhancer jwtTokenEnhancer() {
-        return new JWTTokenEnhancer();
-    }
+//    @Bean
+//    public TokenEnhancer jwtTokenEnhancer() {
+//        return new TokenEnhancer();
+//    }
 
 }

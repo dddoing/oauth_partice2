@@ -17,8 +17,9 @@ public class SecurityConfig extends ResourceServerConfigurerAdapter {
         http
                 .authorizeRequests()
 //                .antMatchers("/oauth2/**","/oauth/**","/login","/h2-console/*").permitAll()
-                .antMatchers("/**").permitAll()
-                .and().formLogin();
+//                .antMatchers("/**").permitAll()
+//                .and().formLogin();
+                .anyRequest().authenticated();
     }
 
 }

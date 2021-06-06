@@ -1,5 +1,6 @@
 package com.pratice.oauth.config;
 
+import com.pratice.oauth.event.CustomClientDetailsService;
 import com.pratice.oauth.event.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private ServiceConfig serviceConfig;
     @Autowired
     private OAuth2RequestFactory requestFactory;
+    @Autowired
+    private CustomClientDetailsService clientDetailsService;
 
     //
     @Override
@@ -60,21 +63,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .refreshTokenValiditySeconds(120)
                 .redirectUris(serviceConfig.getRedirectUrl())
                 .autoApprove(true);
+//        clients.withClientDetails(clientDetailsService);
     }
 
     //
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         //
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
+//        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+//        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
 
         endpoints
 //                .pathMapping("/oauth/authorize","/oauth2/auth")
 //                .pathMapping("/oauth/token","/oauth2/token")
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter)
-                .tokenEnhancer(tokenEnhancerChain)
+//                .tokenEnhancer(tokenEnhancerChain)
                 .tokenStore(tokenStore)
                 .userDetailsService(userDetailsService)
                 .requestFactory(requestFactory);

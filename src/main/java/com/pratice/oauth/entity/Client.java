@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name="user")
-public class Client implements ClientDetails, UserDetails {
+public class Client implements ClientDetails {
 
     @Id
     @GeneratedValue
@@ -78,36 +78,6 @@ public class Client implements ClientDetails, UserDetails {
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.clientId;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
     }
 
     @Override

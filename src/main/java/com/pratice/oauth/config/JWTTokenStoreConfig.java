@@ -17,6 +17,7 @@ import java.util.Arrays;
 public class JWTTokenStoreConfig {
     //
     private final ServiceConfig serviceConfig;
+    private final CustomClientDetailsService clientDetailsService;
 
     @Bean
     public TokenStore tokenStore() {
@@ -33,7 +34,7 @@ public class JWTTokenStoreConfig {
         return converter;
     }
 
-    //?? tokenAccess??
+    //
     @Bean
     @Primary
     public DefaultTokenServices defaultTokenServices() {
@@ -52,7 +53,7 @@ public class JWTTokenStoreConfig {
 
     @Bean
     public OAuth2RequestFactory requestFactory() {
-        return new RequestFactory(new CustomClientDetailsService());
+        return new CustomRequestFactory(clientDetailsService);
     }
 
 }

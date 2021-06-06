@@ -3,12 +3,10 @@ package com.pratice.oauth.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -17,15 +15,29 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name="user")
-public class Client implements ClientDetails {
+public class Client implements ClientDetails, UserDetails {
 
     @Id
     @GeneratedValue
     long msrl;
 
+    @Column
+    private String clientId;
+
+    @Column
+    private String resourceIds;
+    private String clientSecret;
+    private String scope;
+    private String grantTypes;
+    private String redirectUri;
+    private String authorities;
+    private Integer accessTokenValiditySeconds;
+    private Integer refreshTokenValiditySeconds;
+    private Boolean autoApprove;
+
     @Override
     public String getClientId() {
-        return null;
+        return this.clientId;
     }
 
     @Override
@@ -66,6 +78,36 @@ public class Client implements ClientDetails {
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.clientId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     @Override

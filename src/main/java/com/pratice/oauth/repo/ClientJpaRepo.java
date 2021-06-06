@@ -7,5 +7,5 @@
 //
 //public interface ClientJpaRepo extends JpaRepository<Client,Long> {
 //
-//    Optional<Client> findBy
+//    Optional<Client> findByUid(String clientName);
 //}

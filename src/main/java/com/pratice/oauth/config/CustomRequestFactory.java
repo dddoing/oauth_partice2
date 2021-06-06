@@ -12,33 +12,32 @@ import org.springframework.security.oauth2.provider.request.DefaultOAuth2Request
 import java.util.Map;
 
 @Slf4j
-public class RequestFactory extends DefaultOAuth2RequestFactory {
+public class CustomRequestFactory extends DefaultOAuth2RequestFactory {
 
-    public RequestFactory(ClientDetailsService clientDetailsService) {
-        super(new CustomClientDetailsService());
+    public CustomRequestFactory(ClientDetailsService clientDetailsService) {
+        super(clientDetailsService);
     }
     //
 
-//    @Override
-//    public AuthorizationRequest createAuthorizationRequest(Map<String, String> authorizationParameters) {
-//
-//        if (authorizationParameters.get("org_code") == null) {
-//            log.info("hi");
-//        }
-//
-//        return super.createAuthorizationRequest(authorizationParameters);
-//    }
+    // /oauth/authorize
+    @Override
+    public AuthorizationRequest createAuthorizationRequest(Map<String, String> authorizationParameters) {
+
+        if (authorizationParameters.get("org_code") == null) {
+            log.info("non org_code");
+        }
+
+        return super.createAuthorizationRequest(authorizationParameters);
+    }
 
 
-    //validate org_code
+    // /oauth/token
     @Override
     public TokenRequest createTokenRequest(Map<String, String> requestParameters, ClientDetails authenticatedClient) {
         //
 
-        log.info("{}",requestParameters);
-        log.info("{}",requestParameters.get("org_code"));
         if (requestParameters.get("org_code") == null) {
-            log.info("ssi_bal");
+            log.info("non org_code");
         }
         return super.createTokenRequest(requestParameters, authenticatedClient);
     }

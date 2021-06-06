@@ -49,7 +49,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin();
     }
 
-    //fixme: bycrptPassword
     @Bean
     public PasswordEncoder passwordEncoder() {
         //

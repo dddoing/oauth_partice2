@@ -11,6 +11,7 @@ public class CustomClientDetailsService implements ClientDetailsService {
     //
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
-        return new BaseClientDetails("testClient","","read","","");
+
+        return new BaseClientDetails("testClient","org_code","read","","");
     }
 }

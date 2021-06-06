@@ -50,7 +50,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 
-    /////
+    ///// aud >> org_code
     private void printRequest(HttpServletRequest httpRequest) {
         System.out.println(" \n\n Headers");
 

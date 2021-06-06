@@ -16,13 +16,11 @@ public class JWTAccessTokenConverter extends JwtAccessTokenConverter {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         //
-        log.info("{}",accessToken.getAdditionalInformation());
         Map<String,Object> addAccessToken = new HashMap<>();
 
         // /oauth/token : response
         // access_token add
         addAccessToken.put("iss","metlife");
-        addAccessToken.put("aud","org_code");
 //        add.put()
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(addAccessToken);
 

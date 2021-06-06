@@ -14,6 +14,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Scanner;
+
 @Component
 @Slf4j
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -29,22 +34,54 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String userPassword = authentication.getCredentials().toString();
 
-//        User user = userJpaRepo.findByUid(username).orElseThrow(()->new UsernameNotFoundException("no"));
-//
-        log.info("Authentication Info : {}", authentication);
-        log.info("username:{},userPassword:{}",username,userPassword);
-//
-//        if (!passwordEncoder.matches(userPassword,user.getPassword())) {
-//            throw new BadCredentialsException("wrong Password");
-//        }
+        User user = userJpaRepo.findByUid(username).orElseThrow(()->new UsernameNotFoundException("no"));
 
-//        return new UsernamePasswordAuthenticationToken(username,userPassword,user.getAuthorities());
-        return new UsernamePasswordAuthenticationToken(username,userPassword,null);
+        log.info("provider in");
+//
+        if (!passwordEncoder.matches(userPassword,user.getPassword())) {
+            throw new BadCredentialsException("wrong Password");
+        }
+
+        return new UsernamePasswordAuthenticationToken(username,userPassword,user.getAuthorities());
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-//        return authentication.equals(UsernamePasswordAuthenticationToken.class);
-        return true;
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
+
+    /////
+    private void printRequest(HttpServletRequest httpRequest) {
+        System.out.println(" \n\n Headers");
+
+        Enumeration headerNames = httpRequest.getHeaderNames();
+        while(headerNames.hasMoreElements()) {
+            String headerName = (String)headerNames.nextElement();
+            System.out.println(headerName + " = " + httpRequest.getHeader(headerName));
+        }
+
+        System.out.println("\n\nParameters");
+
+        Enumeration params = httpRequest.getParameterNames();
+        while(params.hasMoreElements()){
+            String paramName = (String)params.nextElement();
+            System.out.println(paramName + " = " + httpRequest.getParameter(paramName));
+        }
+
+        System.out.println("\n\n Row data");
+        System.out.println(extractPostRequestBody(httpRequest));
+    }
+
+    static String extractPostRequestBody(HttpServletRequest request) {
+        if ("POST".equalsIgnoreCase(request.getMethod())) {
+            Scanner s = null;
+            try {
+                s = new Scanner(request.getInputStream(), "UTF-8").useDelimiter("\\A");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return s.hasNext() ? s.next() : "";
+        }
+        return "";
     }
 }

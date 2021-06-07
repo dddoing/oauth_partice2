@@ -1,20 +1,23 @@
 package com.pratice.oauth.config;
 
+import com.pratice.oauth.entity.Client;
+import com.pratice.oauth.repo.ClientJpaRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import sun.tools.jstat.Token;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 public class JWTAccessTokenConverter extends JwtAccessTokenConverter {
 
+    @Autowired
+    ClientJpaRepo clientJpaRepo;
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
@@ -29,9 +32,14 @@ public class JWTAccessTokenConverter extends JwtAccessTokenConverter {
 
         accessToken = super.enhance(accessToken,authentication);
 
+        //refresh_token_expires
+        Client client = clientJpaRepo.findByClientId(authentication.getName());
+        Date a = new Date(System.currentTimeMillis()+client.getRefreshTokenValiditySeconds());
+        int aa = Long.valueOf((a.getTime() - System.currentTimeMillis()) / 1000L).intValue();
+
         // response add
         Map<String,Object> addResponseToken = new HashMap<>();
-        addResponseToken.put("refresh_token_expires_in",12);
+        addResponseToken.put("refresh_token_expires_in",aa);
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(addResponseToken);
 
         return accessToken;

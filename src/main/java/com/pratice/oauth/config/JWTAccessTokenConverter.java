@@ -5,13 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import sun.tools.jstat.Token;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 public class JWTAccessTokenConverter extends JwtAccessTokenConverter {
+
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
@@ -28,7 +31,7 @@ public class JWTAccessTokenConverter extends JwtAccessTokenConverter {
 
         // response add
         Map<String,Object> addResponseToken = new HashMap<>();
-        addResponseToken.put("refresh_token_expires_in",123);
+        addResponseToken.put("refresh_token_expires_in",12);
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(addResponseToken);
 
         return accessToken;

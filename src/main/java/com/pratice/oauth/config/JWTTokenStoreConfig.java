@@ -1,6 +1,5 @@
 package com.pratice.oauth.config;
 
-import com.pratice.oauth.event.CustomClientDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +17,6 @@ import java.util.Arrays;
 public class JWTTokenStoreConfig {
     //
     private final ServiceConfig serviceConfig;
-    private final CustomClientDetailsService clientDetailsService;
 
     @Bean
     public TokenStore tokenStore() {
@@ -47,9 +45,6 @@ public class JWTTokenStoreConfig {
         return tokenServices;
     }
 
-    @Bean
-    public OAuth2RequestFactory requestFactory() {
-        return new CustomRequestFactory(clientDetailsService);
-    }
+
 
 }

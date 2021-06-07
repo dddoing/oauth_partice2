@@ -3,14 +3,14 @@ package com.pratice.oauth.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+//client
 @Entity
 @Getter
 @Setter
@@ -19,20 +19,28 @@ public class Client implements ClientDetails {
 
     @Id
     @GeneratedValue
-    long msrl;
+    private long msrl;
 
-    @Column
+    @Column(name = "uid")
     private String clientId;
 
     @Column
     private String resourceIds;
+    @Column (name = "password")
     private String clientSecret;
+    @Column
     private String scope;
+    @Column
     private String grantTypes;
+    @Column
     private String redirectUri;
+    @Column
     private String authorities;
+    @Column
     private Integer accessTokenValiditySeconds;
+    @Column
     private Integer refreshTokenValiditySeconds;
+    @Column
     private Boolean autoApprove;
 
     @Override
@@ -42,57 +50,66 @@ public class Client implements ClientDetails {
 
     @Override
     public Set<String> getResourceIds() {
-        return null;
+        if (resourceIds == null) return null;
+        String[] s = resourceIds.split(",");
+        return new HashSet<>(Arrays.asList(s));
     }
 
     @Override
     public boolean isSecretRequired() {
-        return false;
+        return this.clientSecret !=null;
     }
 
     @Override
     public String getClientSecret() {
-        return null;
+        return this.clientSecret;
     }
 
     @Override
     public boolean isScoped() {
-        return false;
+        return true;
     }
 
     @Override
     public Set<String> getScope() {
-        return null;
+        if (scope == null) return null;
+        String[] s = scope.split(",");
+        return new HashSet<>(Arrays.asList(s));
     }
 
     @Override
     public Set<String> getAuthorizedGrantTypes() {
-        return null;
+        if (grantTypes == null) return null;
+        String[] s = grantTypes.split(",");
+        return new HashSet<>(Arrays.asList(s));
     }
 
     @Override
     public Set<String> getRegisteredRedirectUri() {
-        return null;
+        if (redirectUri == null) return null;
+        String[] s = redirectUri.split(",");
+        return new HashSet<>(Arrays.asList(s));
     }
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
-        return null;
+        if (authorities == null) return new ArrayList<>();
+        return AuthorityUtils.createAuthorityList(authorities.split(","));
     }
 
     @Override
     public Integer getAccessTokenValiditySeconds() {
-        return null;
+        return accessTokenValiditySeconds;
     }
 
     @Override
     public Integer getRefreshTokenValiditySeconds() {
-        return null;
+        return refreshTokenValiditySeconds;
     }
 
     @Override
     public boolean isAutoApprove(String scope) {
-        return false;
+        return autoApprove;
     }
 
     @Override

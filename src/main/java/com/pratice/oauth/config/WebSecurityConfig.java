@@ -1,6 +1,7 @@
 package com.pratice.oauth.config;
 
 import com.pratice.oauth.event.CustomAuthenticationProvider;
+import com.pratice.oauth.event.CustomClientDetailsService;
 import com.pratice.oauth.event.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -23,6 +25,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomAuthenticationProvider authenticationProvider;
     @Autowired
     private CustomUserDetailsService userDetailsService;
+    @Autowired
+    private CustomClientDetailsService clientDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -66,4 +70,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Bean
+    public OAuth2RequestFactory requestFactory() {
+        return new CustomRequestFactory(clientDetailsService);
+    }
+
 }

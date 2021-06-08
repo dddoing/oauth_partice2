@@ -22,7 +22,6 @@ import org.springframework.web.client.RestTemplate;
 public class OAuthController {
 
     private final Gson gson;
-    private final RestTemplate restTemplate;
 
     @GetMapping(value = "/callback")
     public OAuthToken callback(@RequestParam String code,@RequestParam String state) {

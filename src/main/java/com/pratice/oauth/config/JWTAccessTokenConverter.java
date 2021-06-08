@@ -19,6 +19,7 @@ public class JWTAccessTokenConverter extends JwtAccessTokenConverter {
     @Autowired
     ClientJpaRepo clientJpaRepo;
 
+
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         //
@@ -27,19 +28,16 @@ public class JWTAccessTokenConverter extends JwtAccessTokenConverter {
         // /oauth/token : response
         // access_token add
         addAccessToken.put("iss","metlife");
-//        add.put()
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(addAccessToken);
 
         accessToken = super.enhance(accessToken,authentication);
 
         //refresh_token_expires
         Client client = clientJpaRepo.findByClientId(authentication.getName());
-        Date a = new Date(System.currentTimeMillis()+client.getRefreshTokenValiditySeconds());
-        int aa = Long.valueOf((a.getTime() - System.currentTimeMillis()) / 1000L).intValue();
-
         // response add
         Map<String,Object> addResponseToken = new HashMap<>();
-        addResponseToken.put("refresh_token_expires_in",aa);
+
+        addResponseToken.put("refresh_token_expires_in",client.getRefreshTokenValiditySeconds());
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(addResponseToken);
 
         return accessToken;

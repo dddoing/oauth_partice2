@@ -21,7 +21,6 @@ public class CustomClientDetailsService implements ClientDetailsService {
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
 
         Client client = clientJpaRepo.findByClientId(clientId);
-        log.info("{}",client.getAuthorizedGrantTypes());
         BaseClientDetails baseClient = new BaseClientDetails(client);
 
         baseClient.setAutoApproveScopes(client.getScope());

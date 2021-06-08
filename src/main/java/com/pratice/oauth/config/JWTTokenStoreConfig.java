@@ -36,9 +36,10 @@ public class JWTTokenStoreConfig {
     //
     @Bean
     @Primary
-    public DefaultTokenServices defaultTokenServices() {
+    public CustomTokenService defaultTokenServices() {
         //
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
+//        DefaultTokenServices tokenServices = new DefaultTokenServices();
+        CustomTokenService tokenServices = new CustomTokenService();
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
 

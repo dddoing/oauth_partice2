@@ -35,8 +35,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     @Autowired
-    private ServiceConfig serviceConfig;
-    @Autowired
     private OAuth2RequestFactory requestFactory;
     @Autowired
     private CustomClientDetailsService clientDetailsService;
@@ -79,6 +77,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter)
 //                .tokenEnhancer(tokenEnhancerChain)
+//                .tokenServices(tokenService)
                 .tokenStore(tokenStore)
                 .userDetailsService(userDetailsService)
                 .requestFactory(requestFactory);

@@ -2,6 +2,7 @@ package com.pratice.oauth.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
@@ -17,5 +18,11 @@ public class CustomTokenService extends DefaultTokenServices {
     public OAuth2Authentication loadAuthentication(String accessTokenValue) throws AuthenticationException, InvalidTokenException {
         log.info("??");
         return super.loadAuthentication(accessTokenValue);
+    }
+
+    @Override
+    public OAuth2AccessToken readAccessToken(String accessToken) {
+        log.info("??");
+        return super.readAccessToken(accessToken);
     }
 }

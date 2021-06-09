@@ -1,6 +1,6 @@
 package com.pratice.oauth.config;
 
-import com.pratice.oauth.event.CustomClientDetailsService;
+//import com.pratice.oauth.event.CustomClientDetailsService;
 import com.pratice.oauth.event.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +29,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private CustomUserDetailsService userDetailsService;
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
     private TokenStore tokenStore;
     @Autowired
     private JwtAccessTokenConverter jwtAccessTokenConverter;
     @Autowired
     private OAuth2RequestFactory requestFactory;
+//    @Autowired
+//    private CustomClientDetailsService clientDetailsService;
     @Autowired
-    private CustomClientDetailsService clientDetailsService;
+    private ServiceConfig serviceConfig;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     //
     @Override
@@ -52,32 +54,26 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         //
-//        clients.inMemory()
-//                .withClient(serviceConfig.getClient().getId())
-//                .secret(passwordEncoder.encode(serviceConfig.getClient().getSecret()))
-//                .authorizedGrantTypes(serviceConfig.getGrantTypes().toArray(new String[0]))
-//                .scopes("read","write")
-//                .accessTokenValiditySeconds(60)
-//                .refreshTokenValiditySeconds(120)
-//                .redirectUris(serviceConfig.getRedirectUrl())
-//                .autoApprove(true);
-        clients.withClientDetails(clientDetailsService);
+                clients.inMemory()
+                .withClient(serviceConfig.getClient().getId())
+                .secret(passwordEncoder.encode(serviceConfig.getClient().getSecret()))
+                .authorizedGrantTypes(serviceConfig.getGrantTypes().toArray(new String[0]))
+                .scopes("read","write")
+                .accessTokenValiditySeconds(60)
+                .refreshTokenValiditySeconds(120)
+                .redirectUris(serviceConfig.getRedirectUrl())
+                .autoApprove(true);
+//        clients.withClientDetails(clientDetailsService);
     }
 
     //
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         //
-//        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-//        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(jwtAccessTokenConverter));
-
         endpoints
-//                .pathMapping("/oauth/authorize","/oauth2/auth")
 //                .pathMapping("/oauth/token","/oauth2/token")
                 .authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter)
-//                .tokenEnhancer(tokenEnhancerChain)
-//                .tokenServices(tokenService)
                 .tokenStore(tokenStore)
                 .userDetailsService(userDetailsService)
                 .requestFactory(requestFactory);

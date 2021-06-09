@@ -1,7 +1,6 @@
 package com.pratice.oauth.config;
 
 import com.pratice.oauth.event.CustomAuthenticationProvider;
-import com.pratice.oauth.event.CustomClientDetailsService;
 import com.pratice.oauth.event.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
     @Autowired
-    private CustomClientDetailsService clientDetailsService;
+    private ClientDetailsService clientDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

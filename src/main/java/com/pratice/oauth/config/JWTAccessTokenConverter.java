@@ -28,7 +28,7 @@ public class JWTAccessTokenConverter extends JwtAccessTokenConverter {
         // /oauth/token : response
         // access_token add
         addAccessToken.put("iss","metlife");
-        addAccessToken.put("aud","org_code");
+//        addAccessToken.put("aud","org_code");
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(addAccessToken);
 
         accessToken = super.enhance(accessToken,authentication);

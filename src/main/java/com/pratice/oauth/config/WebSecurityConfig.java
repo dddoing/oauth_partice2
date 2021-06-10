@@ -1,23 +1,31 @@
 package com.pratice.oauth.config;
 
+import com.pratice.oauth.controller.CustomEndpoint;
 import com.pratice.oauth.event.CustomAuthenticationProvider;
 import com.pratice.oauth.event.CustomUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerEndpointsConfiguration;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint;
+import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpointHandlerMapping;
 
 @Configuration
+@EnableWebSecurity
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //
@@ -48,7 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                .authorizeRequests().antMatchers("/**").permitAll()
+                .authorizeRequests().antMatchers("/login").permitAll()
+//                .and()
+//                .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .formLogin();
     }
@@ -69,5 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public OAuth2RequestFactory requestFactory() {
         return new CustomRequestFactory(clientDetailsService);
     }
+
 
 }

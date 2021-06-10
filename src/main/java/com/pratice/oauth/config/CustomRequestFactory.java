@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.provider.request.DefaultOAuth2Request
 import java.util.Map;
 
 @Slf4j
-public class CustomRequestFactory extends DefaultOAuth2RequestFactory {
+public class    CustomRequestFactory extends DefaultOAuth2RequestFactory {
 
     public CustomRequestFactory(ClientDetailsService clientDetailsService) {
         super(clientDetailsService);

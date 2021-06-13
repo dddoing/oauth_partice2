@@ -23,7 +23,8 @@ public class    CustomRequestFactory extends DefaultOAuth2RequestFactory {
     @Override
     public AuthorizationRequest createAuthorizationRequest(Map<String, String> authorizationParameters) {
 
-        if (authorizationParameters.get("org_code") == null) {
+        if (authorizationParameters.get("org_code") == null || authorizationParameters.get("state") == null || authorizationParameters.get("app_schema") == null) {
+            // throw error
             log.info("non org_code");
         }
 

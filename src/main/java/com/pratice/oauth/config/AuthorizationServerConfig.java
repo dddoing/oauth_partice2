@@ -68,7 +68,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authorizedGrantTypes("authorization_code","refresh_token")
                 .scopes("read","write")
                 .accessTokenValiditySeconds(60)
-                .refreshTokenValiditySeconds(120)
+                .refreshTokenValiditySeconds(12000)
                 .redirectUris(serviceConfig.getRedirectUrl())
                 .autoApprove(true);
 //        clients.withClientDetails(clientDetailsService);

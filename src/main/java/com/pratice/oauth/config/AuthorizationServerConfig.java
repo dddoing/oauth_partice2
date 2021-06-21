@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.endpoint.AuthorizationEndpoint;
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpointHandlerMapping;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
@@ -47,6 +48,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private ServiceConfig serviceConfig;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthorizationCodeServices authorizationCodeServices;
 
     //
     @Override
@@ -84,21 +87,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenConverter(jwtAccessTokenConverter)
                 .tokenStore(tokenStore)
                 .userDetailsService(userDetailsService)
-                .requestFactory(requestFactory)
+                .requestFactory(requestFactory).authorizationCodeServices(authorizationCodeServices)
                 ;
     }
 
-    @Bean
-    @Primary
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    public TokenEndpoint tokenEndpoint(AuthorizationServerEndpointsConfiguration config) throws Exception {
-        TokenEndpoint tokenEndpoint = new CustomEndpoint();
-        tokenEndpoint.setClientDetailsService(config.getEndpointsConfigurer().getClientDetailsService());
-        tokenEndpoint.setProviderExceptionHandler(config.getEndpointsConfigurer().getExceptionTranslator());
-        tokenEndpoint.setTokenGranter(config.getEndpointsConfigurer().getTokenGranter());
-        tokenEndpoint.setOAuth2RequestFactory(config.getEndpointsConfigurer().getOAuth2RequestFactory());
-        tokenEndpoint.setOAuth2RequestValidator(config.getEndpointsConfigurer().getOAuth2RequestValidator());
-        tokenEndpoint.setAllowedRequestMethods(config.getEndpointsConfigurer().getAllowedTokenEndpointRequestMethods());
-        return tokenEndpoint;
-    }
+
 }

@@ -6,12 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.approval.Approval;
-import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,11 +24,9 @@ public class CustomEndpoint extends TokenEndpoint {
 
     @RequestMapping(value = "/oauth/revoke",method=RequestMethod.POST)
     public ResponseEntity revokeToken(@RequestParam Map<String, String> parameters) {
+        //
 
-        log.info("???????????");
-//        Authentication client = (Authentication) principal;
-//        log.info("{}",client.getName());
-//        log.info("{}",parameters);
+        // 1.client_id, client_secret param check
         if (parameters.get("client_id") == null || parameters.get("client_secret") == null) {
             //
             throw new BadCredentialsException("No client credentials presented");
@@ -40,14 +34,20 @@ public class CustomEndpoint extends TokenEndpoint {
 
         String clientId = parameters.get("client_id");
 
+        // 2.authenticate check?
 //        if (clientJpaRepo.findByClientId(clientId) == null) {
         if (clientJpaRepo.findByClientId("sample@test.com") == null) {
             //
             throw new BadCredentialsException("No client credentials presented");
         }
 
-//        String tokenValue = parameters.get("token");
-//        defaultTokenServices.revokeToken(tokenValue);
+//        Authentication auth =
+
+        // 3.access_token check
+        String tokenValue = parameters.get("token");
+        defaultTokenServices.revokeToken(tokenValue);
+
+        // 4.delete token
 
       return new ResponseEntity("000000",HttpStatus.OK);
     }

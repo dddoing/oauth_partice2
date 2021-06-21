@@ -36,7 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         User user = userJpaRepo.findByUid(username).orElseThrow(()->new UsernameNotFoundException("no"));
 
-        log.info("provider in");
+        log.info("provider in :{} {}",username,userPassword);
 //
         if (!passwordEncoder.matches(userPassword,user.getPassword())) {
             throw new BadCredentialsException("wrong Password");

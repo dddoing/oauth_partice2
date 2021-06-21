@@ -20,11 +20,10 @@ public class Token {
 
     private String accessToken;
     private String clientId;
-    private String userId;
     private String refreshToken;
 
     @Override
     public String toString() {
-        return "id [" + authenticateId + "] access [" + accessToken + "] refresh[ " +refreshToken + "] cid [" + clientId + "] uid [" + userId +"]";
+        return "id [" + authenticateId + "] access [" + accessToken + "] refresh[ " +refreshToken + "] cid [" + clientId + "] ";
     }
 }

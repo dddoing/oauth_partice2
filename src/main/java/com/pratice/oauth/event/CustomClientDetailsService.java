@@ -20,6 +20,7 @@ public class CustomClientDetailsService implements ClientDetailsService {
     @Override
     public ClientDetails loadClientByClientId(String clientId) throws ClientRegistrationException {
 
+        log.info("hi");
         Client client = clientJpaRepo.findByClientId(clientId);
         BaseClientDetails baseClient = new BaseClientDetails(client);
 

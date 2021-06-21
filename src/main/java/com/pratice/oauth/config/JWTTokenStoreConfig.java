@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
@@ -29,6 +31,11 @@ public class JWTTokenStoreConfig {
 //        return new JdbcStoreC(dataSource);
         return new JdbcTokenStore(dataSource);
     }
+    @Bean
+    public AuthorizationCodeServices authorizationCodeServices(){
+        //
+        return new JdbcAuthorizationCodeServices(dataSource);
+    }
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
@@ -48,6 +55,7 @@ public class JWTTokenStoreConfig {
 //        CustomTokenService tokenServices = new CustomTokenService();
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
+        tokenServices.setReuseRefreshToken(false);
 
 
         return tokenServices;

@@ -1,5 +1,6 @@
 package com.pratice.oauth.filter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,7 @@ import java.io.IOException;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@Slf4j
 public class CorsFilter implements Filter {
     //
 
@@ -28,6 +30,7 @@ public class CorsFilter implements Filter {
 
         if (HttpMethod.OPTIONS.name().equalsIgnoreCase(((HttpServletRequest) req).getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
+            log.info("??");
         } else {
             chain.doFilter(req, res);
         }

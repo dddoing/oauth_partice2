@@ -1,6 +1,7 @@
 package com.pratice.oauth.encoding;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class ClientEncode {
 
@@ -9,5 +10,8 @@ public class ClientEncode {
         String credentials = "sample@test.com:1234";
         String encodedCredentials = new String(Base64.encodeBase64(credentials.getBytes()));
         System.out.println(encodedCredentials);
+
+        String a = "1234";
+        System.out.println(new BCryptPasswordEncoder().encode(a));
     }
 }

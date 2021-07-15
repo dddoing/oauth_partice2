@@ -15,8 +15,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
-@RequestMapping(value = "/oauth2")
+@RequestMapping(value = "/oauth")
 @RequiredArgsConstructor
 @Slf4j
 public class OAuthController {

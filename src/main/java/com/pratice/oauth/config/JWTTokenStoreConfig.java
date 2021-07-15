@@ -1,6 +1,7 @@
 package com.pratice.oauth.config;
 
 //import com.pratice.oauth.event.JdbcStoreC;
+import com.pratice.oauth.event.CustomCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,14 +28,15 @@ public class JWTTokenStoreConfig {
     @Bean
     public TokenStore tokenStore() {
         //
-//        return new JwtTokenStore(jwtAccessTokenConverter());
+        return new JwtTokenStore(jwtAccessTokenConverter());
 //        return new JdbcStoreC(dataSource);
-        return new JdbcTokenStore(dataSource);
+//        return new JdbcTokenStore(dataSource);
     }
     @Bean
     public AuthorizationCodeServices authorizationCodeServices(){
         //
-        return new JdbcAuthorizationCodeServices(dataSource);
+//        return new JdbcAuthorizationCodeServices(dataSource);
+        return new CustomCodeService();
     }
 
     @Bean

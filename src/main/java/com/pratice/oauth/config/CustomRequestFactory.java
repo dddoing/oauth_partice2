@@ -8,7 +8,12 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Slf4j
@@ -25,8 +30,9 @@ public class    CustomRequestFactory extends DefaultOAuth2RequestFactory {
 
         if (authorizationParameters.get("org_code") == null || authorizationParameters.get("state") == null || authorizationParameters.get("app_schema") == null) {
             // throw error
-            log.info("non org_code");
+            log.info("error");
         }
+
 
         return super.createAuthorizationRequest(authorizationParameters);
     }

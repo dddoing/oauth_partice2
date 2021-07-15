@@ -48,8 +48,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private ServiceConfig serviceConfig;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private AuthorizationCodeServices authorizationCodeServices;
+//    @Autowired
+//    private AuthorizationCodeServices authorizationCodeServices;
 
     //
     @Override
@@ -70,10 +70,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 //                .authorizedGrantTypes(serviceConfig.getGrantTypes().toArray(new String[0]))
                 .authorizedGrantTypes("authorization_code","refresh_token")
                 .scopes("read","write")
-                .accessTokenValiditySeconds(60)
+                .accessTokenValiditySeconds(6000)
                 .refreshTokenValiditySeconds(12000)
                 .redirectUris(serviceConfig.getRedirectUrl())
-                .autoApprove(true);
+                .autoApprove(true).resourceIds("test1");
 //        clients.withClientDetails(clientDetailsService);
     }
 
@@ -87,7 +87,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenConverter(jwtAccessTokenConverter)
                 .tokenStore(tokenStore)
                 .userDetailsService(userDetailsService)
-                .requestFactory(requestFactory).authorizationCodeServices(authorizationCodeServices)
+                .requestFactory(requestFactory)
                 ;
     }
 
